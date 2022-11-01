@@ -20,26 +20,24 @@ import GenCol.*;
 import util.*;
 import statistics.*;
 
-public class truckGenr extends ViewableAtomic{
+public class PatientGenerator extends ViewableAtomic{
 
 
-  protected double int_gen_time;
+  protected double interGenTime = 15;
+  //PatientEntity job;
   protected int count;
-  protected rand r;
+  public PatientGenerator() {this("ptGenr", 7);}
 
-  public truckGenr() {this("truckGenr", 30);}
-
-public truckGenr(String name,double period){
+public PatientGenerator(String name,double period){
    super(name);
-   addInport("in");
    addOutport("out");
-
-   int_gen_time = period ;
+//   interGenTime = period ;
+//   
+//   addTestInput("in",new entity("an entity"),7);
 }
 
 public void initialize(){
-   holdIn("active", 2);
-   r = new rand(2887766);
+   holdIn("active", interGenTime);
    count = 0;
 }
 
@@ -47,28 +45,25 @@ public void initialize(){
 public void  deltext(double e,message x)
 {
 Continue(e);
-
+//   for (int i=0; i< x.getLength();i++){
+//     if (messageOnPort(x, "in", i)) { //the stop message from tranducer
+//       passivate();
+//     }
+//   }
 }
-
 
 public void  deltint( )
 {
-
-if(phaseIs("active")){
-   count = count +1;
-   holdIn("active",20+r.uniform(int_gen_time));
-}
-else passivate();
+	if(phaseIs("active")){
+	   count = count +1;
+	   holdIn("active",interGenTime);
+	}
 }
 
 public message  out( )
 {
-
-//System.out.println(name+" out count "+count);
-
    message  m = new message();
-//   content con = makeContent("out", new entity("truck" + count));
-   content con = makeContent("out", new vehicleEntity("truck" + count, 10+r.uniform(30), 100+r.uniform(100), 1));
+   content con = makeContent("out", new entity("patient" + " " + count));
    m.add(con);
 
   return m;
