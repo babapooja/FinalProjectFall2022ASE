@@ -14,6 +14,8 @@ import simView.*;
 
 
 import java.lang.*;
+import java.util.Random;
+
 import genDevs.modeling.*;
 import genDevs.simulation.*;
 import GenCol.*;
@@ -22,52 +24,64 @@ import statistics.*;
 
 public class PatientGenerator extends ViewableAtomic{
 
-
-  protected double interGenTime = 15;
-  //PatientEntity job;
-  protected int count;
-  public PatientGenerator() {this("ptGenr", 7);}
-
-public PatientGenerator(String name,double period){
-   super(name);
-   addOutport("out");
-//   interGenTime = period ;
-//   
-//   addTestInput("in",new entity("an entity"),7);
-}
-
-public void initialize(){
-   holdIn("active", interGenTime);
-   count = 0;
-}
-
-
-public void  deltext(double e,message x)
-{
-Continue(e);
-//   for (int i=0; i< x.getLength();i++){
-//     if (messageOnPort(x, "in", i)) { //the stop message from tranducer
-//       passivate();
-//     }
-//   }
-}
-
-public void  deltint( )
-{
-	if(phaseIs("active")){
-	   count = count +1;
-	   holdIn("active",interGenTime);
+	protected static double randomTime = 0;
+	protected static int priority = 1, maxPriority = 3, minPriority = 1;
+	protected static double interGenTime = 15;
+	protected static double maxTime = 20, minTime = 10;
+	protected static int count;
+	protected static Random r = new Random();
+	
+	public PatientGenerator() 
+	{
+		this("ptGenr", 5);
 	}
-}
 
-public message  out( )
-{
-   message  m = new message();
-   content con = makeContent("out", new entity("patient" + " " + count));
-   m.add(con);
-
-  return m;
-}
+	public PatientGenerator(String name,double period)
+	{
+	   super(name);
+	   addOutport("out");
+	   
+	   interGenTime = period;
+	   //   
+	   //   addTestInput("in",new entity("an entity"),7);
+	}
+		
+	public void initialize()
+	{
+	   holdIn("active", interGenTime);
+	   count = 0;
+	}
+	
+	
+	public void  deltext(double e,message x)
+	{
+		Continue(e);
+	}
+	
+	public void  deltint( )
+	{
+		if(phaseIs("active")){
+		   count = count + 1;
+		   // next patient will come at random time 
+		   interGenTime = minTime + (maxTime - minTime) * r.nextDouble();
+		   // System.out.println("patient genrated after: " + interGenTime + "minutes");
+		   holdIn("active",interGenTime);
+		}
+	}
+	
+	public message  out( )
+	{
+	   message  m = new message();
+	   
+	   // randomly (1,2 or 3) decide the priority of this patient
+	   priority = r.nextInt((maxPriority - minPriority) + 1) + minPriority;
+	   System.out.println("priority of patient: " + priority);
+	   
+	   content con = makeContent("out", new PatientEntity("patient" + " " + count, priority));
+	   m.add(con);
+	
+	   return m;
+	}
 
 
 }
