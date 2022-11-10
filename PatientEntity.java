@@ -4,9 +4,11 @@ import GenCol.*;
 
 public class PatientEntity extends entity{
   
-  protected double processingTime;
+  protected int processingTime;
   //protected double price;
   protected int priority;
+  
+  protected String patientName;
   
   
   /*
@@ -26,12 +28,14 @@ public class PatientEntity extends entity{
   };
   
   public PatientEntity(){
-	  this("patient",10);
+	  this("patient",1, 5);
   }
   
   // get name, const processing time and radom priority each time for patient entity
-  public PatientEntity(String name, int _priority){
+  public PatientEntity(String name, int _priority, int _processingTime){
 	  super(name);
+	  
+	  patientName = name;
 	  
 	  if(_priority == 1)
 	  {
@@ -52,9 +56,10 @@ public class PatientEntity extends entity{
 	  }
 	  
 	  priority = _priority;
+	  processingTime = _processingTime;
   }
 	
-  public double getProcessingTime(){
+  public int getProcessingTime(){
 	  return processingTime;
   }
 	/*
@@ -65,8 +70,12 @@ public class PatientEntity extends entity{
 	  return priority;
   }
   
+  public String getPatientName() {
+	  return patientName;
+  }
+  
   public String toString(){
-	  return name+"_"+"priority"+"_"+priority;
+	  return patientName+"_"+"priority"+"_"+priority;
   }
 		
 }

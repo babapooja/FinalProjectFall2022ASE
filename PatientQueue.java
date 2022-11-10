@@ -20,8 +20,9 @@ import GenCol.*;
 
 public class PatientQueue extends ViewableAtomic{
 
-	double patientServingTime = 20;
-	entity patientJob = null;
+	public static PatientEntity patientJob, currentPatientJob;
+	public static DEVSQueue q;
+	
 	
 	public PatientQueue() {this("patientQueue");}
 	
@@ -31,11 +32,12 @@ public class PatientQueue extends ViewableAtomic{
 	    addOutport("outGeneralWard");
 	    addOutport("outSemiSpecialWard");
 	    addOutport("outSpecialWard");
-	    addTestInput("patientIn", new entity("testPatient"));
+	    // addTestInput("patientIn", new entity("testPatient"));
 	}
 	
 	public void initialize(){
-	     passivate();
+		q = new DEVSQueue();
+	    passivate();
 	}
 	
 	public void  deltext(double e,message x)
@@ -44,26 +46,67 @@ public class PatientQueue extends ViewableAtomic{
 		
 		if(phaseIs("passive")) {
 			for(int i=0;i<x.getLength();i++) {
+				if(messageOnPort(x, "patientIn", i)) 
+				{
+					patientJob = (PatientEntity) x.getValOnPort("patientIn", i);
+					System.out.println("received patient data is as follows: ");
+					System.out.println("name: "+ patientJob.patientName);
+					System.out.println("processingTime: "+ patientJob.processingTime);
+					System.out.println("priority: "+ patientJob.priority);
+					currentPatientJob = patientJob;
+					holdIn("active", currentPatientJob.getProcessingTime());
+				}
+			}
+		}
+		
+		else if(phaseIs("active")) {
+			for(int i=0;i<x.getLength();i++) 
+			{
 				if(messageOnPort(x, "patientIn", i)) {
-					patientJob = x.getValOnPort("patientIn", i);
-					holdIn("active", patientServingTime);
+					patientJob = (PatientEntity) x.getValOnPort("patientIn", i);
+					System.out.println("following patient will be added in queue: ");
+					System.out.println("name: "+ patientJob.patientName);
+					System.out.println("processingTime: "+ patientJob.processingTime);
+					System.out.println("priority: "+ patientJob.priority);
+					q.add(patientJob);
 				}
 			}
 		}
 	}
 	
-	public void  deltint( ){
+	public void  deltint()
+	{
 		if(phaseIs("active")) {
-			passivate();
+			if(!q.isEmpty())
+			{
+				currentPatientJob = (PatientEntity) q.remove();
+				// q.remove();
+				holdIn("active", currentPatientJob.getProcessingTime());
+			}
+			else
+			{
+				passivate();
+			}
 		}
 	}
 	
 	public message out( ) {
 	   message  m = new message();
-	   if(phaseIs("active")) {
-		   m.add(makeContent("outGeneralWard", new entity(patientJob.getName())));
-	   }
+	   m.add(makeContent("outGeneralWard", 
+			   new PatientEntity(
+					   currentPatientJob.getPatientName(), 
+					   currentPatientJob.getPriority(), 
+					   currentPatientJob.getProcessingTime()
+					   )
+			   ));
 	   return m;
+	}
+	
+	public String getTooltipText(){
+		if(currentPatientJob!=null)
+		return super.getTooltipText()+"\n number of patients in queue:"+q.size()+
+		"\n my current job is:" + currentPatientJob.toString();
+		else return "initial value";
 	}
 }
 

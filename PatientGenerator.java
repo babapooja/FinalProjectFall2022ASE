@@ -29,6 +29,7 @@ public class PatientGenerator extends ViewableAtomic{
 	protected static double interGenTime = 15;
 	protected static double maxTime = 20, minTime = 10;
 	protected static int count;
+	protected static int processingTime;
 	protected static Random r = new Random();
 	
 	public PatientGenerator() 
@@ -75,9 +76,12 @@ public class PatientGenerator extends ViewableAtomic{
 	   
 	   // randomly (1,2 or 3) decide the priority of this patient
 	   priority = r.nextInt((maxPriority - minPriority) + 1) + minPriority;
-	   System.out.println("priority of patient: " + priority);
 	   
-	   content con = makeContent("out", new PatientEntity("patient" + " " + count, priority));
+	   if(priority == 1) processingTime = 5;
+	   else if(priority == 2) processingTime = 10;
+	   else processingTime = 15;
+	   
+	   content con = makeContent("out", new PatientEntity("patient" + " " + count, priority, processingTime));
 	   m.add(con);
 	
 	   return m;
