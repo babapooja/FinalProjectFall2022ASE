@@ -33,7 +33,7 @@ public HospitalSystem(String nm){
 
 public void hospitalSystemConstruct(){
 
-    this.addOutport("out");
+    this.addOutport("hospitalExit");
 
     ViewableAtomic patientGenr = new PatientGenerator("patientGenr",12);
     ViewableAtomic patientQueue = new PatientQueue("patientQueue");
@@ -47,13 +47,13 @@ public void hospitalSystemConstruct(){
      add(semiSpecialWardQueue);
      add(specialWardQueue);
 
-     addCoupling(patientGenr,"out",patientQueue,"patientIn");
+     addCoupling(patientGenr,"patientIncomingHospital",patientQueue,"patientIn");
      addCoupling(patientQueue,"outGeneralWard",generalWardQueue,"generalWardIn");
      addCoupling(patientQueue,"outSemiSpecialWard",semiSpecialWardQueue,"semiSpecialWardIn");
      addCoupling(patientQueue,"outSpecialWard",specialWardQueue,"specialWardIn");
-     addCoupling(generalWardQueue,"dischargeFromGeneralWard",this,"out");
-     addCoupling(semiSpecialWardQueue,"dischargeFromSemiSpecialWard",this,"out");
-     addCoupling(specialWardQueue,"dischargeFromSpecialWard",this,"out");
+     addCoupling(generalWardQueue,"dischargeFromGeneralWard",this,"hospitalExit");
+     addCoupling(semiSpecialWardQueue,"dischargeFromSemiSpecialWard",this,"hospitalExit");
+     addCoupling(specialWardQueue,"dischargeFromSpecialWard",this,"hospitalExit");
 
 }
 
@@ -68,12 +68,16 @@ public void hospitalSystemConstruct(){
         preferredSize = new Dimension(991, 517);
         if((ViewableComponent)withName("patientQueue")!=null)
              ((ViewableComponent)withName("patientQueue")).setPreferredLocation(new Point(178, 202));
+        
         if((ViewableComponent)withName("specialWardQueue")!=null)
-             ((ViewableComponent)withName("specialWardQueue")).setPreferredLocation(new Point(522, 64));
+             ((ViewableComponent)withName("specialWardQueue")).setPreferredLocation(new Point(513, 424));
+        
         if((ViewableComponent)withName("patientGenr")!=null)
              ((ViewableComponent)withName("patientGenr")).setPreferredLocation(new Point(12, 246));
+        
         if((ViewableComponent)withName("generalWardQueue")!=null)
-             ((ViewableComponent)withName("generalWardQueue")).setPreferredLocation(new Point(513, 424));
+             ((ViewableComponent)withName("generalWardQueue")).setPreferredLocation(new Point(522, 64));
+        
         if((ViewableComponent)withName("semiSpecialWardQueue")!=null)
              ((ViewableComponent)withName("semiSpecialWardQueue")).setPreferredLocation(new Point(502, 235));
     }

@@ -5,18 +5,17 @@ import GenCol.*;
 public class PatientEntity extends entity{
   
   protected int processingTime;
-  //protected double price;
   protected int priority;
-  
   protected String patientName;
   
   
   /*
   	http://www.patientnavigatortraining.org/healthcare_system/module1/2_typesofpatientcare.htm
   	2 cases for each ward
-  	general: processingTime is 15 mins diseases cured in small time frame (1-2 days)
-  	semi-special: processingTime 10 mins is not life threatning but requires immediate attention (5 to 10 days)
-  	special: processingTime is 5 mins, long term care required (7 to 14 days)
+  	higher the priority number higher the priority to attend the patient
+  	general: processingTime is 15 units diseases cured in small time frame (1-2 days)
+  	semi-special: processingTime 10 units is not life threatening but requires immediate attention (5 to 10 days)
+  	special: processingTime is 5 units, long term care required (7 to 14 days)
   */
   protected String[] cases = {
 		  "CARDIAC",				// special
@@ -27,7 +26,7 @@ public class PatientEntity extends entity{
 		  "STOMACHACHES"			// general
   };
   
-  public PatientEntity(){
+  public PatientEntity() {
 	  this("patient",1, 5);
   }
   
@@ -36,25 +35,20 @@ public class PatientEntity extends entity{
 	  super(name);
 	  
 	  patientName = name;
-	  
-	  if(_priority == 1)
-	  {
-		  // this is special ward patient
+	  switch(_priority) {
+	  	case 1: {
 		  processingTime = 5;
-	  }
-	  
-	  else if(_priority == 2)
-	  {
-		  // this is semi special ward patient
+		  break;
+	  	}
+	  	case 2: {
 		  processingTime = 10;
-	  }
-	  
-	  else
-	  {
-		  // this is general ward patient
+		  break;
+		}
+	  	case 3: {
 		  processingTime = 15;
+		  break;
+		}
 	  }
-	  
 	  priority = _priority;
 	  processingTime = _processingTime;
   }
@@ -62,9 +56,6 @@ public class PatientEntity extends entity{
   public int getProcessingTime(){
 	  return processingTime;
   }
-	/*
-	 * public double getPrice(){ return price; }
-	 */
   
   public int getPriority(){
 	  return priority;

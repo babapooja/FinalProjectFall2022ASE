@@ -32,7 +32,6 @@ public class PatientQueue extends ViewableAtomic{
 	    addOutport("outGeneralWard");
 	    addOutport("outSemiSpecialWard");
 	    addOutport("outSpecialWard");
-	    // addTestInput("patientIn", new entity("testPatient"));
 	}
 	
 	public void initialize(){
@@ -92,7 +91,10 @@ public class PatientQueue extends ViewableAtomic{
 	
 	public message out( ) {
 	   message  m = new message();
-	   m.add(makeContent("outGeneralWard", 
+	   // decide the output port based on the priority
+	   String outputPort = currentPatientJob.getPriority()==1?"outGeneralWard"
+			   				:(currentPatientJob.getPriority()==2?"outSemiSpecialWard":"outSpecialWard");
+	   m.add(makeContent(outputPort, 
 			   new PatientEntity(
 					   currentPatientJob.getPatientName(), 
 					   currentPatientJob.getPriority(), 

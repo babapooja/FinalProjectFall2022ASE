@@ -40,7 +40,7 @@ public class PatientGenerator extends ViewableAtomic{
 	public PatientGenerator(String name,double period)
 	{
 	   super(name);
-	   addOutport("out");
+	   addOutport("patientIncomingHospital");
 	   
 	   interGenTime = period;
 	   //   
@@ -81,7 +81,7 @@ public class PatientGenerator extends ViewableAtomic{
 	   else if(priority == 2) processingTime = 10;
 	   else processingTime = 15;
 	   
-	   content con = makeContent("out", new PatientEntity("patient" + " " + count, priority, processingTime));
+	   content con = makeContent("patientIncomingHospital", new PatientEntity("patient" + " " + count, priority, processingTime));
 	   m.add(con);
 	
 	   return m;
