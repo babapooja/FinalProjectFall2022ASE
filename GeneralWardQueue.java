@@ -22,6 +22,7 @@ public class GeneralWardQueue extends ViewableAtomic{
 
 	double patientServingTime = 20;
 	entity patientJob = null;
+	public static int bedCount = 15;
 	
 	public GeneralWardQueue() {this("generalWardQueue");}
 	
@@ -44,6 +45,7 @@ public class GeneralWardQueue extends ViewableAtomic{
 				if(messageOnPort(x, "generalWardIn", i)) {
 					patientJob = x.getValOnPort("generalWardIn", i);
 					holdIn("active", patientServingTime);
+					bedCount--;
 				}
 			}
 		}
@@ -59,6 +61,7 @@ public class GeneralWardQueue extends ViewableAtomic{
 	   message  m = new message();
 	   if(phaseIs("active")) {
 		   m.add(makeContent("dischargeFromGeneralWard", new entity(patientJob.getName())));
+		   bedCount++;
 	   }
 	   return m;
 	}

@@ -7,6 +7,7 @@
  *  Date       : 08-15-02
  */
 
+// Patient is generated in every 15 units of time
 
 package FinalProjectFall2022ASE;
 

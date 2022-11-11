@@ -22,6 +22,7 @@ public class SpecialWardQueue extends ViewableAtomic{
 
 	double patientServingTime = 20;
 	entity patientJob = null;
+	public static int bedCount = 5;
 	
 	public SpecialWardQueue() {this("patientQueue");}
 	

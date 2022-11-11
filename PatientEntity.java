@@ -50,7 +50,6 @@ public class PatientEntity extends entity{
 		}
 	  }
 	  priority = _priority;
-	  processingTime = _processingTime;
   }
 	
   public int getProcessingTime(){

@@ -22,6 +22,9 @@ public class PatientQueue extends ViewableAtomic{
 
 	public static PatientEntity patientJob, currentPatientJob;
 	public static DEVSQueue q;
+	public static GeneralWardQueue gWQ = new GeneralWardQueue();
+	public static SemiSpecialWardQueue ssWQ = new SemiSpecialWardQueue();
+	public static SpecialWardQueue sWQ = new SpecialWardQueue();
 	
 	
 	public PatientQueue() {this("patientQueue");}
@@ -68,6 +71,26 @@ public class PatientQueue extends ViewableAtomic{
 					System.out.println("processingTime: "+ patientJob.processingTime);
 					System.out.println("priority: "+ patientJob.priority);
 					q.add(patientJob);
+//					switch(patientJob.priority) {
+//						case 1: {
+//							if(sWQ.bedCount>0) {
+//								q.add(patientJob);
+//								break;
+//							}
+//						}
+//						case 2: {
+//							if(ssWQ.bedCount>0) {
+//								q.add(patientJob);
+//								break;
+//							}
+//						}
+//						case 3: {
+//							if(gWQ.bedCount>0) {
+//								q.add(patientJob);
+//								break;
+//							}
+//						}
+//					}					
 				}
 			}
 		}
@@ -92,7 +115,7 @@ public class PatientQueue extends ViewableAtomic{
 	public message out( ) {
 	   message  m = new message();
 	   // decide the output port based on the priority
-	   String outputPort = currentPatientJob.getPriority()==1?"outGeneralWard"
+	   String outputPort = currentPatientJob.getPriority()==3?"outGeneralWard"
 			   				:(currentPatientJob.getPriority()==2?"outSemiSpecialWard":"outSpecialWard");
 	   m.add(makeContent(outputPort, 
 			   new PatientEntity(

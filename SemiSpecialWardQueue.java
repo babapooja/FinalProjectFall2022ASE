@@ -22,6 +22,7 @@ public class SemiSpecialWardQueue extends ViewableAtomic{
 
 	double patientServingTime = 20;
 	entity patientJob = null;
+	public static int bedCount = 10;
 	
 	public SemiSpecialWardQueue() {this("patientQueue");}
 	
@@ -44,6 +45,7 @@ public class SemiSpecialWardQueue extends ViewableAtomic{
 				if(messageOnPort(x, "semiSpecialWardIn", i)) {
 					patientJob = x.getValOnPort("semiSpecialWardIn", i);
 					holdIn("active", patientServingTime);
+					bedCount--;
 				}
 			}
 		}
@@ -59,6 +61,7 @@ public class SemiSpecialWardQueue extends ViewableAtomic{
 	   message  m = new message();
 	   if(phaseIs("active")) {
 		   m.add(makeContent("dischargeFromSemiSpecialWard", new entity(patientJob.getName())));
+		   bedCount++;
 	   }
 	   return m;
 	}
