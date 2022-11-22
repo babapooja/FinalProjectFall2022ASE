@@ -26,7 +26,7 @@ public class PatientEntity extends entity{
 		  "CARDIAC",				// special
 		  "SERIOUS ACCIDENT",		// special
 		  "BONE FRACTURE",			// semi-special
-		  "SEPSIS",				    // semi-special // Sepsis develops when an existing infection triggers an extreme immune system response in your body.
+		  "SEPSIS",				    // semi-special
 		  "VIRAL INFECTION",		// general
 		  "STOMACHACHES"			// general
   };

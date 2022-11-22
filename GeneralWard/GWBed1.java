@@ -42,16 +42,11 @@ public class GWBed1 extends ViewableAtomic{
 	public void  deltext(double e,message x)
 	{
 		Continue(e);
-		
-		System.out.println(x);
-		
+				
 		if(phaseIs("passive")) {
 			for(int i=0;i<x.getLength();i++) {
 				if(messageOnPort(x, "gwBed1In", i)) {
 					patientJob = x.getValOnPort("gwBed1In", i);
-					
-					System.out.println("BEEEDD 1 patient received: "+patientJob.getName());
-					
 					holdIn("active", patientServingTime);
 					currentPhase = "active";
 				}
