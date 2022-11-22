@@ -14,27 +14,28 @@ import simView.*;
 
 
 import java.lang.*;
+
+import FinalProjectFall2022ASE.AppConstants;
 import genDevs.modeling.*;
 import genDevs.simulation.*;
 import GenCol.*;
 
 public class SWBed1 extends ViewableAtomic{
 
-	double patientServingTime = 20;
 	entity patientJob = null;
-	public static String currentPhase = "passive";
+	public static String currentPhase = AppConstants.PASSIVE_PHASE;
 	
 	public SWBed1() {this("swBed1");}
 	
 	public SWBed1(String name){
 	    super(name);
-	    addInport("swBed1In");
-	    addOutport("swBed1Out");
+	    addInport(AppConstants.SW_INPUTPORT[0]);
+	    addOutport(AppConstants.SW_OUTPUTPORT[0]);
 	}
 	
 	public void initialize(){
 	     passivate();
-	     currentPhase = "passive";
+	     currentPhase = AppConstants.PASSIVE_PHASE;
 	}
 	
 	public void  deltext(double e,message x)
@@ -45,10 +46,10 @@ public class SWBed1 extends ViewableAtomic{
 		
 		if(phaseIs("passive")) {
 			for(int i=0;i<x.getLength();i++) {
-				if(messageOnPort(x, "swBed1In", i)) {
-					patientJob = x.getValOnPort("swBed1In", i);
-					holdIn("active", patientServingTime);
-					currentPhase = "active";
+				if(messageOnPort(x, AppConstants.SW_INPUTPORT[0], i)) {
+					patientJob = x.getValOnPort(AppConstants.SW_INPUTPORT[0], i);
+					holdIn("active", AppConstants.getPatientServingTime(1));
+					currentPhase = AppConstants.ACTIVE_PHASE;
 				}
 			}
 		}
@@ -57,14 +58,14 @@ public class SWBed1 extends ViewableAtomic{
 	public void  deltint( ){
 		if(phaseIs("active")) {
 			passivate();
-			currentPhase = "passive";
+			currentPhase = AppConstants.PASSIVE_PHASE;
 		}
 	}
 	
 	public message out( ) {
 	   message  m = new message();
 	   if(phaseIs("active")) {
-		   m.add(makeContent("swBed1Out", new entity(patientJob.getName())));
+		   m.add(makeContent(AppConstants.SW_OUTPUTPORT[0], new entity(patientJob.getName())));
 	   }
 	   return m;
 	}

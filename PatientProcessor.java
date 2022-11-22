@@ -22,27 +22,15 @@ public class PatientProcessor extends ViewableAtomic{
 	public static PatientEntity patientJob, currentPatientJob;
 	public static DEVSQueue q;
 	
-	public static boolean shiftingAlgorithm = false;
-	
 	public PatientProcessor() {this("patientProcessor");}
 	
 	public PatientProcessor(String name){
 	    super(name);
-	    addInport("patientIn");
+	    addInport(AppConstants.PATIENT_PROCESSOR_INPUTPORT);
 	    
-	    
-	    addOutport("pqGWBed1");
-	    addOutport("pqGWBed2");
-	    
-	    addOutport("pqSSWBed1");
-	    addOutport("pqSSWBed2");
-	    
-	    addOutport("pqSWBed1");
-	    addOutport("pqSWBed2");
-	    
-	    addOutport("pqExit");
-	   
-	    // addTestInput("patientIn", new entity("testPatient"));
+	    for(String i: AppConstants.PATIENT_PROCESSOR_OUTPUTPORT) {
+	    	addOutport(i);
+	    }
 	}
 	
 	public void initialize(){
@@ -56,13 +44,9 @@ public class PatientProcessor extends ViewableAtomic{
 		
 		if(phaseIs("passive")) {
 			for(int i=0;i<x.getLength();i++) {
-				if(messageOnPort(x, "patientIn", i)) 
+				if(messageOnPort(x, AppConstants.PATIENT_PROCESSOR_INPUTPORT, i)) 
 				{
-					patientJob = (PatientEntity) x.getValOnPort("patientIn", i);
-//					System.out.println("received patient data is as follows: ");
-//					System.out.println("name: "+ patientJob.patientName);
-//					System.out.println("processingTime: "+ patientJob.processingTime);
-//					System.out.println("priority: "+ patientJob.priority);
+					patientJob = (PatientEntity) x.getValOnPort(AppConstants.PATIENT_PROCESSOR_INPUTPORT, i);
 					currentPatientJob = patientJob;
 					holdIn("active", currentPatientJob.getProcessingTime());
 				}
@@ -72,12 +56,8 @@ public class PatientProcessor extends ViewableAtomic{
 		else if(phaseIs("active")) {
 			for(int i=0;i<x.getLength();i++) 
 			{
-				if(messageOnPort(x, "patientIn", i)) {
-					patientJob = (PatientEntity) x.getValOnPort("patientIn", i);
-//					System.out.println("following patient will be added in queue: ");
-//					System.out.println("name: "+ patientJob.patientName);
-//					System.out.println("processingTime: "+ patientJob.processingTime);
-//					System.out.println("priority: "+ patientJob.priority);
+				if(messageOnPort(x, AppConstants.PATIENT_PROCESSOR_INPUTPORT, i)) {
+					patientJob = (PatientEntity) x.getValOnPort(AppConstants.PATIENT_PROCESSOR_INPUTPORT, i);
 					q.add(patientJob);
 				}
 			}
@@ -106,59 +86,57 @@ public class PatientProcessor extends ViewableAtomic{
 	   
 	   String outputPort = "";
 	      
-	   if(shiftingAlgorithm == false)
+	   if(!AppConstants.APPLY_SHIFTING_LOGIC)
 	   {
 		   if(m_priority == 3)
 		   {
-			   if(GWBed1.currentPhase == "passive")
+			   if(GWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed1";
 			   }
-			   else if(GWBed2.currentPhase == "passive")
+			   else if(GWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed2";
 			   }
 			   else
 			   {
-				   outputPort = "pqExit";
+				   outputPort = AppConstants.PATIENT_PROCESSOR_OUTPUTPORT[0];
 			   }
 		   }
 		   
 		   else if(m_priority == 2)
 		   {
-			   if(SSWBed1.currentPhase == "passive")
+			   if(SSWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSSWBed1";
 			   }
-			   else if(SSWBed2.currentPhase == "passive")
+			   else if(SSWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSSWBed2";
 			   }
 			   else
 			   {
-				   outputPort = "pqExit";
+				   outputPort = AppConstants.PATIENT_PROCESSOR_OUTPUTPORT[0];;
 			   }
 
 		   }
 		   
 		   else if(m_priority == 1)
 		   {
-			   if(SWBed1.currentPhase == "passive")
+			   if(SWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSWBed1";
 			   }
-			   else if(SWBed2.currentPhase == "passive")
+			   else if(SWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSWBed2";
 			   }
 			   else
 			   {
-				   outputPort = "pqExit";
+				   outputPort = AppConstants.PATIENT_PROCESSOR_OUTPUTPORT[0];
 			   }
 		   }
-		   
-		   System.out.println("outputPort: "+ outputPort);
-			   
+		   			   
 		   m.add(makeContent(outputPort, 
 				   new PatientEntity(
 						   currentPatientJob.getPatientName(), 
@@ -175,89 +153,87 @@ public class PatientProcessor extends ViewableAtomic{
 		   
 		   if(m_priority == 3)
 		   {
-			   if(GWBed1.currentPhase == "passive")
+			   if(GWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed1";
 			   }
-			   else if(GWBed2.currentPhase == "passive")
+			   else if(GWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed2";
 			   }
 			   else
 			   {
-				   outputPort = "pqExit";
+				   outputPort = AppConstants.PATIENT_PROCESSOR_OUTPUTPORT[0];
 			   }
 		   }
 		   
 		   else if(m_priority == 2)
 		   {
 			   // check SSW beds
-			   if(SSWBed1.currentPhase == "passive")
+			   if(SSWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSSWBed1";
 			   }
 			   
-			   else if(SSWBed2.currentPhase == "passive")
+			   else if(SSWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSSWBed2";
 			   }
 			   
 			   // if occupied check GW beds
-			   else if(GWBed1.currentPhase == "passive")
+			   else if(GWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed1";
 			   }
-			   else if(GWBed2.currentPhase == "passive")
+			   else if(GWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed2";
 			   }
 			   
 			   else
 			   {
-				   outputPort = "pqExit";
+				   outputPort = AppConstants.PATIENT_PROCESSOR_OUTPUTPORT[0];
 			   }
 		   }
 		   
 		   else if(m_priority == 1)
 		   {
 			   // check SW beds
-			   if(SWBed1.currentPhase == "passive")
+			   if(SWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSWBed1";
 			   }
-			   else if(SWBed2.currentPhase == "passive")
+			   else if(SWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSWBed2";
 			   }
 			   
 			   // if occupied check SSW beds
-			   else if(SSWBed1.currentPhase == "passive")
+			   else if(SSWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSSWBed1";
 			   }
-			   else if(SSWBed2.currentPhase == "passive")
+			   else if(SSWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSSWBed2";
 			   }
 			   
 			   // if occupied check GW beds
-			   else if(GWBed1.currentPhase == "passive")
+			   else if(GWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed1";
 			   }
-			   else if(GWBed2.currentPhase == "passive")
+			   else if(GWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed2";
 			   }
 			   
 			   else
 			   {
-				   outputPort = "pqExit";
+				   outputPort = AppConstants.PATIENT_PROCESSOR_OUTPUTPORT[0];
 			   }
 		   }
-		   
-		   System.out.println("outputPort: "+ outputPort);
-			   
+		   			   
 		   m.add(makeContent(outputPort, 
 				   new PatientEntity(
 						   currentPatientJob.getPatientName(), 
