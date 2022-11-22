@@ -1,6 +1,6 @@
 package FinalProjectFall2022ASE;
 
-import GenCol.*;
+import GenCol.entity;
 
 public class PatientEntity extends entity{
   
@@ -16,6 +16,11 @@ public class PatientEntity extends entity{
   	general: processingTime is 15 units diseases cured in small time frame (1-2 days)
   	semi-special: processingTime 10 units is not life threatening but requires immediate attention (5 to 10 days)
   	special: processingTime is 5 units, long term care required (7 to 14 days)
+  	
+  	Following cases for bed allocations:
+	1. Patient with Priority 1 has 3 options for bed
+	2. Patient with Priority 2 has 2 options for bed
+	3. Patient with Priority 3 has 1 option for bed
   */
   protected String[] cases = {
 		  "CARDIAC",				// special
@@ -35,20 +40,7 @@ public class PatientEntity extends entity{
 	  super(name);
 	  
 	  patientName = name;
-	  switch(_priority) {
-	  	case 1: {
-		  processingTime = 5;
-		  break;
-	  	}
-	  	case 2: {
-		  processingTime = 10;
-		  break;
-		}
-	  	case 3: {
-		  processingTime = 15;
-		  break;
-		}
-	  }
+	  processingTime = AppConstants.getPatientProcessingTime(_priority);
 	  priority = _priority;
   }
 	

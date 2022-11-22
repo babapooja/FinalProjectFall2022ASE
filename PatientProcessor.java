@@ -6,15 +6,8 @@
  *  Version    : DEVSJAVA 2.7
  *  Date       : 08-15-02
  */
-
-
 package FinalProjectFall2022ASE;
-
 import simView.*;
-
-
-import java.lang.*;
-
 import FinalProjectFall2022ASE.GeneralWard.GWBed1;
 import FinalProjectFall2022ASE.GeneralWard.GWBed2;
 import FinalProjectFall2022ASE.SemiSepcialWard.SSWBed1;
@@ -22,7 +15,6 @@ import FinalProjectFall2022ASE.SemiSepcialWard.SSWBed2;
 import FinalProjectFall2022ASE.SpecialWard.SWBed1;
 import FinalProjectFall2022ASE.SpecialWard.SWBed2;
 import genDevs.modeling.*;
-import genDevs.simulation.*;
 import GenCol.*;
 
 public class PatientProcessor extends ViewableAtomic{
@@ -31,12 +23,13 @@ public class PatientProcessor extends ViewableAtomic{
 	public static DEVSQueue q;
 	
 	
-	public PatientProcessor() {this("patientQueue");}
+	public PatientProcessor() {this("patientProcessor");}
 	
 	public PatientProcessor(String name){
 	    super(name);
 	    addInport("patientIn");
-	     
+	    
+	    
 	    addOutport("pqGWBed1");
 	    addOutport("pqGWBed2");
 	    

@@ -24,14 +24,11 @@ import util.*;
 import statistics.*;
 
 public class PatientGenerator extends ViewableAtomic{
-
-	protected static double randomTime = 0;
-	protected static int priority = 1, maxPriority = 3, minPriority = 1;
-	protected static double interGenTime = 10;
-	protected static double maxTime = 20, minTime = 10;
+	protected static int priority = 1;
+	protected static double interGenTime = AppConstants.PATIENT_GENERATION_TIME;
 	protected static int count;
 	protected static int processingTime;
-	protected static Random r = new Random();
+	
 	
 	public PatientGenerator() 
 	{
@@ -41,11 +38,8 @@ public class PatientGenerator extends ViewableAtomic{
 	public PatientGenerator(String name,double period)
 	{
 	   super(name);
-	   addOutport("patientIncomingHospital");
-	   
+	   addOutport(AppConstants.PATIENT_GENERATOR_OUTPUTPORT);
 	   interGenTime = period;
-	   //   
-	   //   addTestInput("in",new entity("an entity"),7);
 	}
 		
 	public void initialize()
@@ -53,7 +47,6 @@ public class PatientGenerator extends ViewableAtomic{
 	   holdIn("active", interGenTime);
 	   count = 0;
 	}
-	
 	
 	public void  deltext(double e,message x)
 	{
@@ -64,9 +57,7 @@ public class PatientGenerator extends ViewableAtomic{
 	{
 		if(phaseIs("active")){
 		   count = count + 1;
-		   // next patient will come at random time 
-		   interGenTime = minTime + (maxTime - minTime) * r.nextDouble();
-		   // System.out.println("patient genrated after: " + interGenTime + "minutes");
+		   interGenTime = AppConstants.interPatientGenerationTime();
 		   holdIn("active",interGenTime);
 		}
 	}
@@ -75,14 +66,11 @@ public class PatientGenerator extends ViewableAtomic{
 	{
 	   message  m = new message();
 	   
-	   // randomly (1,2 or 3) decide the priority of this patient
-	   priority = r.nextInt((maxPriority - minPriority) + 1) + minPriority;
-	   
-	   if(priority == 1) processingTime = 5;
-	   else if(priority == 2) processingTime = 10;
-	   else processingTime = 15;
-	   
-	   content con = makeContent("patientIncomingHospital", new PatientEntity("patient" + " " + count, priority, processingTime));
+	   // randomly generate a x priority patient
+	   priority = AppConstants.generateRandomPriority();
+	   processingTime = AppConstants.getPatientProcessingTime(priority);
+	
+	   content con = makeContent(AppConstants.PATIENT_GENERATOR_OUTPUTPORT, new PatientEntity("patient" + " " + count, priority, processingTime));
 	   m.add(con);
 	
 	   return m;
