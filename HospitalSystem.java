@@ -16,8 +16,16 @@ import java.awt.*;
 import java.io.*;
 
 import FinalProjectFall2022ASE.GeneralWard.GWBed1;
+import FinalProjectFall2022ASE.GeneralWard.GWBed2;
+
+
 import FinalProjectFall2022ASE.SemiSepcialWard.SSWBed1;
+import FinalProjectFall2022ASE.SemiSepcialWard.SSWBed2;
+
 import FinalProjectFall2022ASE.SpecialWard.SWBed1;
+import FinalProjectFall2022ASE.SpecialWard.SWBed2;
+
+
 import genDevs.modeling.*;
 import genDevs.simulation.*;
 import GenCol.*;
@@ -45,13 +53,13 @@ public void hospitalSystemConstruct(){
     
     
     ViewableAtomic gwBed1 = new GWBed1("GWBed1");
-    ViewableAtomic gwBed2 = new GWBed1("GWBed2");
+    ViewableAtomic gwBed2 = new GWBed2("GWBed2");
     
     ViewableAtomic sswBed1 = new SSWBed1("SSWBed1");
-    ViewableAtomic sswBed2 = new SSWBed1("SSWBed2");
+    ViewableAtomic sswBed2 = new SSWBed2("SSWBed2");
     
     ViewableAtomic swBed1 = new SWBed1("SWBed1");
-    ViewableAtomic swBed2 = new SWBed1("SWBed2");
+    ViewableAtomic swBed2 = new SWBed2("SWBed2");
    
 	add(patientGenr);
 	add(patientProcessor);
@@ -78,7 +86,7 @@ public void hospitalSystemConstruct(){
 	
 	// pq to SW
 	addCoupling(patientProcessor,"pqSWBed1",swBed1,"swBed1In");
-	addCoupling(patientProcessor,"pqSWBed2",swBed2,"swBed12In");
+	addCoupling(patientProcessor,"pqSWBed2",swBed2,"swBed2In");
 	
 	// GW to out
 	addCoupling(gwBed1,"gwBed1Out",this,"hospitalExit");
