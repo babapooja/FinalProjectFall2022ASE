@@ -99,6 +99,9 @@ public void hospitalSystemConstruct(){
 	// SW to out
 	addCoupling(swBed1,"swBed1Out",this,"hospitalExit");
 	addCoupling(swBed2,"swBed2Out",this,"hospitalExit");
+	
+	// pq Exit to hospitalExit
+	addCoupling(patientProcessor,"pqExit",this,"hospitalExit");
 }
 
 
@@ -114,22 +117,22 @@ public void hospitalSystemConstruct(){
      */
     public void layoutForSimView()
     {
-        preferredSize = new Dimension(625, 341);
-        if((ViewableComponent)withName("GWBed2")!=null)
-             ((ViewableComponent)withName("GWBed2")).setPreferredLocation(new Point(273, 87));
-        if((ViewableComponent)withName("SSWBed2")!=null)
-             ((ViewableComponent)withName("SSWBed2")).setPreferredLocation(new Point(240, 192));
-        if((ViewableComponent)withName("patientGenr")!=null)
-             ((ViewableComponent)withName("patientGenr")).setPreferredLocation(new Point(20, 143));
-        if((ViewableComponent)withName("GWBed1")!=null)
-             ((ViewableComponent)withName("GWBed1")).setPreferredLocation(new Point(237, 262));
-        if((ViewableComponent)withName("SWBed2")!=null)
-             ((ViewableComponent)withName("SWBed2")).setPreferredLocation(new Point(50, 50));
+        preferredSize = new Dimension(1773, 907);
         if((ViewableComponent)withName("patientQueue")!=null)
-             ((ViewableComponent)withName("patientQueue")).setPreferredLocation(new Point(116, 183));
+             ((ViewableComponent)withName("patientQueue")).setPreferredLocation(new Point(242, 50));
+        if((ViewableComponent)withName("GWBed2")!=null)
+             ((ViewableComponent)withName("GWBed2")).setPreferredLocation(new Point(632, 230));
         if((ViewableComponent)withName("SWBed1")!=null)
-             ((ViewableComponent)withName("SWBed1")).setPreferredLocation(new Point(50, 50));
+             ((ViewableComponent)withName("SWBed1")).setPreferredLocation(new Point(551, 604));
+        if((ViewableComponent)withName("GWBed1")!=null)
+             ((ViewableComponent)withName("GWBed1")).setPreferredLocation(new Point(591, 480));
+        if((ViewableComponent)withName("SSWBed2")!=null)
+             ((ViewableComponent)withName("SSWBed2")).setPreferredLocation(new Point(694, 417));
+        if((ViewableComponent)withName("patientGenr")!=null)
+             ((ViewableComponent)withName("patientGenr")).setPreferredLocation(new Point(135, 361));
+        if((ViewableComponent)withName("SWBed2")!=null)
+             ((ViewableComponent)withName("SWBed2")).setPreferredLocation(new Point(725, 332));
         if((ViewableComponent)withName("SSWBed1")!=null)
-             ((ViewableComponent)withName("SSWBed1")).setPreferredLocation(new Point(50, 50));
+             ((ViewableComponent)withName("SSWBed1")).setPreferredLocation(new Point(555, 48));
     }
 }

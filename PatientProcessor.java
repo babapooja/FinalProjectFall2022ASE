@@ -39,6 +39,8 @@ public class PatientProcessor extends ViewableAtomic{
 	    
 	    addOutport("pqSWBed1");
 	    addOutport("pqSWBed2");
+	    
+	    addOutport("pqExit");
 	   
 	    // addTestInput("patientIn", new entity("testPatient"));
 	}
