@@ -50,8 +50,7 @@ public void hospitalSystemConstruct(){
     ViewableAtomic patientGenr = new PatientGenerator("patientGenr",15);
     ViewableAtomic patientProcessor = new PatientProcessor("patientQueue");
     
-    
-    
+
     ViewableAtomic gwBed1 = new GWBed1("GWBed1");
     ViewableAtomic gwBed2 = new GWBed2("GWBed2");
     

@@ -41,13 +41,10 @@ public class SSWBed1 extends ViewableAtomic{
 	{
 		Continue(e);
 		
-		System.out.println(x);
-		
 		if(phaseIs("passive")) {
 			for(int i=0;i<x.getLength();i++) {
 				if(messageOnPort(x, "sswBed1In", i)) {
 					patientJob = x.getValOnPort("sswBed1In", i);
-					System.out.println("BEEEDD 1 patient received: "+patientJob.getName());
 					holdIn("active", patientServingTime);
 					currentPhase = "active";
 				}
