@@ -40,7 +40,7 @@ public void hospitalSystemConstruct(){
     this.addOutport("hospitalExit");
 
     ViewableAtomic patientGenr = new PatientGenerator("patientGenr",15);
-    ViewableAtomic patientQueue = new PatientQueue("patientQueue");
+    ViewableAtomic patientProcessor = new PatientProcessor("patientQueue");
     
     
     
@@ -54,7 +54,7 @@ public void hospitalSystemConstruct(){
     ViewableAtomic swBed2 = new SWBed1("SWBed2");
    
 	add(patientGenr);
-	add(patientQueue);
+	add(patientProcessor);
 	
 	add(gwBed1);
 	add(gwBed2);
@@ -66,31 +66,31 @@ public void hospitalSystemConstruct(){
 	add(swBed2);
 	
 	// patient genr to patientQueue
-	addCoupling(patientGenr,"patientIncomingHospital",patientQueue,"patientIn");
+	addCoupling(patientGenr,"patientIncomingHospital",patientProcessor,"patientIn");
 	
 	// pq to GW
-	addCoupling(patientQueue,"pqGWBed1",gwBed1,"gwBed1In");
-	addCoupling(patientQueue,"pqGWBed2",gwBed2,"gwBed2In");
+	addCoupling(patientProcessor,"pqGWBed1",gwBed1,"gwBed1In");
+	addCoupling(patientProcessor,"pqGWBed2",gwBed2,"gwBed2In");
 	
 	// pq to SSW
-	addCoupling(patientQueue,"pqSSWBed1",sswBed1,"sswBed1In");
-	addCoupling(patientQueue,"pqSSWBed2",sswBed2,"sswBed2In");
+	addCoupling(patientProcessor,"pqSSWBed1",sswBed1,"sswBed1In");
+	addCoupling(patientProcessor,"pqSSWBed2",sswBed2,"sswBed2In");
 	
 	// pq to SW
-	addCoupling(patientQueue,"pqSWBed1",swBed1,"swBed1In");
-	addCoupling(patientQueue,"pqSWBed2",swBed2,"swBed12In");
+	addCoupling(patientProcessor,"pqSWBed1",swBed1,"swBed1In");
+	addCoupling(patientProcessor,"pqSWBed2",swBed2,"swBed12In");
 	
 	// GW to out
-	addCoupling(patientQueue,"gwBed1Out",this,"hospitalExit");
-	addCoupling(patientQueue,"gwBed2Out",this,"hospitalExit");
+	addCoupling(gwBed1,"gwBed1Out",this,"hospitalExit");
+	addCoupling(gwBed2,"gwBed2Out",this,"hospitalExit");
 	
 	// SSW to out
-	addCoupling(patientQueue,"sswBed1Out",this,"hospitalExit");
-	addCoupling(patientQueue,"sswBed2Out",this,"hospitalExit");
+	addCoupling(sswBed1,"sswBed1Out",this,"hospitalExit");
+	addCoupling(sswBed2,"sswBed2Out",this,"hospitalExit");
 	
 	// SW to out
-	addCoupling(patientQueue,"swBed1Out",this,"hospitalExit");
-	addCoupling(patientQueue,"swBed2Out",this,"hospitalExit");
+	addCoupling(swBed1,"swBed1Out",this,"hospitalExit");
+	addCoupling(swBed2,"swBed2Out",this,"hospitalExit");
 }
 
 

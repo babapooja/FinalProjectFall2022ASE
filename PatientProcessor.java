@@ -18,15 +18,15 @@ import genDevs.modeling.*;
 import genDevs.simulation.*;
 import GenCol.*;
 
-public class PatientQueue extends ViewableAtomic{
+public class PatientProcessor extends ViewableAtomic{
 
 	public static PatientEntity patientJob, currentPatientJob;
 	public static DEVSQueue q;
 	
 	
-	public PatientQueue() {this("patientQueue");}
+	public PatientProcessor() {this("patientQueue");}
 	
-	public PatientQueue(String name){
+	public PatientProcessor(String name){
 	    super(name);
 	    addInport("patientIn");
 	    
