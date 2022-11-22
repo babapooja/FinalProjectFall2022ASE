@@ -22,9 +22,9 @@ public class SSWBed1 extends ViewableAtomic{
 
 	double patientServingTime = 20;
 	entity patientJob = null;
-	public static int bedCount = 10;
+	public static String currentPhase = "passive";
 	
-	public SSWBed1() {this("patientQueue");}
+	public SSWBed1() {this("sswBed1");}
 	
 	public SSWBed1(String name){
 	    super(name);
@@ -34,18 +34,22 @@ public class SSWBed1 extends ViewableAtomic{
 	
 	public void initialize(){
 	     passivate();
+	     currentPhase = "passive";
 	}
 	
 	public void  deltext(double e,message x)
 	{
 		Continue(e);
 		
+		System.out.println(x);
+		
 		if(phaseIs("passive")) {
 			for(int i=0;i<x.getLength();i++) {
-				if(messageOnPort(x, "semiSpecialWardIn", i)) {
-					patientJob = x.getValOnPort("semiSpecialWardIn", i);
+				if(messageOnPort(x, "sswBed1In", i)) {
+					patientJob = x.getValOnPort("sswBed1In", i);
+					System.out.println("BEEEDD 1 patient received: "+patientJob.getName());
 					holdIn("active", patientServingTime);
-					bedCount--;
+					currentPhase = "active";
 				}
 			}
 		}
@@ -54,14 +58,14 @@ public class SSWBed1 extends ViewableAtomic{
 	public void  deltint( ){
 		if(phaseIs("active")) {
 			passivate();
+			currentPhase = "passive";
 		}
 	}
 	
 	public message out( ) {
 	   message  m = new message();
 	   if(phaseIs("active")) {
-		   m.add(makeContent("dischargeFromSemiSpecialWard", new entity(patientJob.getName())));
-		   bedCount++;
+		   m.add(makeContent("sswBed1Out", new entity(patientJob.getName())));
 	   }
 	   return m;
 	}

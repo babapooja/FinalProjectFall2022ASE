@@ -19,9 +19,9 @@ public class PatientEntity extends entity{
   */
   protected String[] cases = {
 		  "CARDIAC",				// special
-		  "BONE FRACTURE",			// special
-		  "SERIOUS ACCIDENT",		// semi-special
-		  "BURNS",					// semi-special
+		  "SERIOUS ACCIDENT",		// special
+		  "BONE FRACTURE",			// semi-special
+		  "SEPSIS",				    // semi-special // Sepsis develops when an existing infection triggers an extreme immune system response in your body.
 		  "VIRAL INFECTION",		// general
 		  "STOMACHACHES"			// general
   };

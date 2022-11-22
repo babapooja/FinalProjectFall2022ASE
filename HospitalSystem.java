@@ -117,22 +117,22 @@ public void hospitalSystemConstruct(){
      */
     public void layoutForSimView()
     {
-        preferredSize = new Dimension(1773, 907);
+        preferredSize = new Dimension(1263, 644);
         if((ViewableComponent)withName("patientQueue")!=null)
-             ((ViewableComponent)withName("patientQueue")).setPreferredLocation(new Point(242, 50));
+             ((ViewableComponent)withName("patientQueue")).setPreferredLocation(new Point(298, 265));
         if((ViewableComponent)withName("GWBed2")!=null)
-             ((ViewableComponent)withName("GWBed2")).setPreferredLocation(new Point(632, 230));
+             ((ViewableComponent)withName("GWBed2")).setPreferredLocation(new Point(555, 152));
         if((ViewableComponent)withName("SWBed1")!=null)
-             ((ViewableComponent)withName("SWBed1")).setPreferredLocation(new Point(551, 604));
+             ((ViewableComponent)withName("SWBed1")).setPreferredLocation(new Point(550, 450));
         if((ViewableComponent)withName("GWBed1")!=null)
-             ((ViewableComponent)withName("GWBed1")).setPreferredLocation(new Point(591, 480));
+             ((ViewableComponent)withName("GWBed1")).setPreferredLocation(new Point(557, 47));
         if((ViewableComponent)withName("SSWBed2")!=null)
-             ((ViewableComponent)withName("SSWBed2")).setPreferredLocation(new Point(694, 417));
+             ((ViewableComponent)withName("SSWBed2")).setPreferredLocation(new Point(550, 350));
         if((ViewableComponent)withName("patientGenr")!=null)
-             ((ViewableComponent)withName("patientGenr")).setPreferredLocation(new Point(135, 361));
+             ((ViewableComponent)withName("patientGenr")).setPreferredLocation(new Point(103, 282));
         if((ViewableComponent)withName("SWBed2")!=null)
-             ((ViewableComponent)withName("SWBed2")).setPreferredLocation(new Point(725, 332));
+             ((ViewableComponent)withName("SWBed2")).setPreferredLocation(new Point(550, 550));
         if((ViewableComponent)withName("SSWBed1")!=null)
-             ((ViewableComponent)withName("SSWBed1")).setPreferredLocation(new Point(555, 48));
+             ((ViewableComponent)withName("SSWBed1")).setPreferredLocation(new Point(553, 253));
     }
 }

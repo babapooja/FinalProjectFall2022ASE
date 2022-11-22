@@ -27,7 +27,7 @@ public class PatientGenerator extends ViewableAtomic{
 
 	protected static double randomTime = 0;
 	protected static int priority = 1, maxPriority = 3, minPriority = 1;
-	protected static double interGenTime = 15;
+	protected static double interGenTime = 10;
 	protected static double maxTime = 20, minTime = 10;
 	protected static int count;
 	protected static int processingTime;

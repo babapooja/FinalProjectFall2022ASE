@@ -14,6 +14,13 @@ import simView.*;
 
 
 import java.lang.*;
+
+import FinalProjectFall2022ASE.GeneralWard.GWBed1;
+import FinalProjectFall2022ASE.GeneralWard.GWBed2;
+import FinalProjectFall2022ASE.SemiSepcialWard.SSWBed1;
+import FinalProjectFall2022ASE.SemiSepcialWard.SSWBed2;
+import FinalProjectFall2022ASE.SpecialWard.SWBed1;
+import FinalProjectFall2022ASE.SpecialWard.SWBed2;
 import genDevs.modeling.*;
 import genDevs.simulation.*;
 import GenCol.*;
@@ -29,8 +36,7 @@ public class PatientProcessor extends ViewableAtomic{
 	public PatientProcessor(String name){
 	    super(name);
 	    addInport("patientIn");
-	    
-	    
+	     
 	    addOutport("pqGWBed1");
 	    addOutport("pqGWBed2");
 	    
@@ -102,7 +108,65 @@ public class PatientProcessor extends ViewableAtomic{
 	
 	public message out( ) {
 	   message  m = new message();
-	   m.add(makeContent("outGeneralWard", 
+	   
+	   int m_priority = currentPatientJob.getPriority();
+	   
+	   String outputPort = "";
+	   
+	   System.out.println("patient priority: "+ m_priority);
+	   
+	   if(m_priority == 3)
+	   {
+		   if(GWBed1.currentPhase == "passive")
+		   {
+			   outputPort = "pqGWBed1";
+		   }
+		   else if(GWBed2.currentPhase == "passive")
+		   {
+			   outputPort = "pqGWBed2";
+		   }
+		   else
+		   {
+			   outputPort = "pqExit";
+		   }
+	   }
+	   
+	   else if(m_priority == 2)
+	   {
+		   if(SSWBed1.currentPhase == "passive")
+		   {
+			   outputPort = "pqSSWBed1";
+		   }
+		   else if(SSWBed2.currentPhase == "passive")
+		   {
+			   outputPort = "pqSSWBed2";
+		   }
+		   else
+		   {
+			   outputPort = "pqExit";
+		   }
+
+	   }
+	   
+	   else if(m_priority == 1)
+	   {
+		   if(SWBed1.currentPhase == "passive")
+		   {
+			   outputPort = "pqSWBed1";
+		   }
+		   else if(SWBed2.currentPhase == "passive")
+		   {
+			   outputPort = "pqSWBed2";
+		   }
+		   else
+		   {
+			   outputPort = "pqExit";
+		   }
+	   }
+	   
+	   System.out.println("outputPort: "+ outputPort);
+		   
+	   m.add(makeContent(outputPort, 
 			   new PatientEntity(
 					   currentPatientJob.getPatientName(), 
 					   currentPatientJob.getPriority(), 

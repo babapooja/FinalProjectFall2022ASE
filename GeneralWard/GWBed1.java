@@ -22,9 +22,10 @@ public class GWBed1 extends ViewableAtomic{
 
 	double patientServingTime = 20;
 	entity patientJob = null;
-	public static int bedCount = 15;
+	public static String currentPhase = "passive";
 	
-	public GWBed1() {this("generalWardQueue");}
+	
+	public GWBed1() {this("gwBed1");}
 	
 	public GWBed1(String name){
 	    super(name);
@@ -34,6 +35,7 @@ public class GWBed1 extends ViewableAtomic{
 	}
 	
 	public void initialize() {
+		 currentPhase = "passive";
 	     passivate();
 	}
 	
@@ -41,12 +43,17 @@ public class GWBed1 extends ViewableAtomic{
 	{
 		Continue(e);
 		
+		System.out.println(x);
+		
 		if(phaseIs("passive")) {
 			for(int i=0;i<x.getLength();i++) {
-				if(messageOnPort(x, "generalWardIn", i)) {
-					patientJob = x.getValOnPort("generalWardIn", i);
+				if(messageOnPort(x, "gwBed1In", i)) {
+					patientJob = x.getValOnPort("gwBed1In", i);
+					
+					System.out.println("BEEEDD 1 patient received: "+patientJob.getName());
+					
 					holdIn("active", patientServingTime);
-					bedCount--;
+					currentPhase = "active";
 				}
 			}
 		}
@@ -54,6 +61,7 @@ public class GWBed1 extends ViewableAtomic{
 	
 	public void  deltint( ){
 		if(phaseIs("active")) {
+			currentPhase = "passive";
 			passivate();
 		}
 	}
@@ -61,8 +69,7 @@ public class GWBed1 extends ViewableAtomic{
 	public message out( ) {
 	   message  m = new message();
 	   if(phaseIs("active")) {
-		   m.add(makeContent("dischargeFromGeneralWard", new entity(patientJob.getName())));
-		   bedCount++;
+		   m.add(makeContent("gwBed1Out", new entity(patientJob.getName())));
 	   }
 	   return m;
 	}
