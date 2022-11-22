@@ -8,7 +8,7 @@
  */
 
 
-package FinalProjectFall2022ASE;
+package FinalProjectFall2022ASE.SpecialWard;
 
 import simView.*;
 
@@ -18,18 +18,18 @@ import genDevs.modeling.*;
 import genDevs.simulation.*;
 import GenCol.*;
 
-public class SpecialWardQueue extends ViewableAtomic{
+public class SWBed1 extends ViewableAtomic{
 
 	double patientServingTime = 20;
 	entity patientJob = null;
 	public static int bedCount = 5;
 	
-	public SpecialWardQueue() {this("patientQueue");}
+	public SWBed1() {this("patientQueue");}
 	
-	public SpecialWardQueue(String name){
+	public SWBed1(String name){
 	    super(name);
-	    addInport("specialWardIn");
-	    addOutport("dischargeFromSpecialWard");
+	    addInport("swBed1In");
+	    addOutport("swBed1Out");
 	}
 	
 	public void initialize(){

@@ -22,9 +22,6 @@ public class PatientQueue extends ViewableAtomic{
 
 	public static PatientEntity patientJob, currentPatientJob;
 	public static DEVSQueue q;
-	public static GeneralWardQueue gWQ = new GeneralWardQueue();
-	public static SemiSpecialWardQueue ssWQ = new SemiSpecialWardQueue();
-	public static SpecialWardQueue sWQ = new SpecialWardQueue();
 	
 	
 	public PatientQueue() {this("patientQueue");}
@@ -32,9 +29,18 @@ public class PatientQueue extends ViewableAtomic{
 	public PatientQueue(String name){
 	    super(name);
 	    addInport("patientIn");
-	    addOutport("outGeneralWard");
-	    addOutport("outSemiSpecialWard");
-	    addOutport("outSpecialWard");
+	    
+	    
+	    addOutport("pqGWBed1");
+	    addOutport("pqGWBed2");
+	    
+	    addOutport("pqSSWBed1");
+	    addOutport("pqSSWBed2");
+	    
+	    addOutport("pqSWBed1");
+	    addOutport("pqSWBed2");
+	   
+	    // addTestInput("patientIn", new entity("testPatient"));
 	}
 	
 	public void initialize(){
@@ -71,26 +77,6 @@ public class PatientQueue extends ViewableAtomic{
 					System.out.println("processingTime: "+ patientJob.processingTime);
 					System.out.println("priority: "+ patientJob.priority);
 					q.add(patientJob);
-//					switch(patientJob.priority) {
-//						case 1: {
-//							if(sWQ.bedCount>0) {
-//								q.add(patientJob);
-//								break;
-//							}
-//						}
-//						case 2: {
-//							if(ssWQ.bedCount>0) {
-//								q.add(patientJob);
-//								break;
-//							}
-//						}
-//						case 3: {
-//							if(gWQ.bedCount>0) {
-//								q.add(patientJob);
-//								break;
-//							}
-//						}
-//					}					
 				}
 			}
 		}
@@ -114,10 +100,7 @@ public class PatientQueue extends ViewableAtomic{
 	
 	public message out( ) {
 	   message  m = new message();
-	   // decide the output port based on the priority
-	   String outputPort = currentPatientJob.getPriority()==3?"outGeneralWard"
-			   				:(currentPatientJob.getPriority()==2?"outSemiSpecialWard":"outSpecialWard");
-	   m.add(makeContent(outputPort, 
+	   m.add(makeContent("outGeneralWard", 
 			   new PatientEntity(
 					   currentPatientJob.getPatientName(), 
 					   currentPatientJob.getPriority(), 

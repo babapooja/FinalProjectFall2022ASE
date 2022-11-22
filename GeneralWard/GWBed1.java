@@ -8,7 +8,7 @@
  */
 
 
-package FinalProjectFall2022ASE;
+package FinalProjectFall2022ASE.GeneralWard;
 
 import simView.*;
 
@@ -18,21 +18,22 @@ import genDevs.modeling.*;
 import genDevs.simulation.*;
 import GenCol.*;
 
-public class SemiSpecialWardQueue extends ViewableAtomic{
+public class GWBed1 extends ViewableAtomic{
 
 	double patientServingTime = 20;
 	entity patientJob = null;
-	public static int bedCount = 10;
+	public static int bedCount = 15;
 	
-	public SemiSpecialWardQueue() {this("patientQueue");}
+	public GWBed1() {this("generalWardQueue");}
 	
-	public SemiSpecialWardQueue(String name){
+	public GWBed1(String name){
 	    super(name);
-	    addInport("semiSpecialWardIn");
-	    addOutport("dischargeFromSemiSpecialWard");
+	    
+	    addInport("gwBed1In");
+	    addOutport("gwBed1Out");
 	}
 	
-	public void initialize(){
+	public void initialize() {
 	     passivate();
 	}
 	
@@ -42,8 +43,8 @@ public class SemiSpecialWardQueue extends ViewableAtomic{
 		
 		if(phaseIs("passive")) {
 			for(int i=0;i<x.getLength();i++) {
-				if(messageOnPort(x, "semiSpecialWardIn", i)) {
-					patientJob = x.getValOnPort("semiSpecialWardIn", i);
+				if(messageOnPort(x, "generalWardIn", i)) {
+					patientJob = x.getValOnPort("generalWardIn", i);
 					holdIn("active", patientServingTime);
 					bedCount--;
 				}
@@ -60,10 +61,9 @@ public class SemiSpecialWardQueue extends ViewableAtomic{
 	public message out( ) {
 	   message  m = new message();
 	   if(phaseIs("active")) {
-		   m.add(makeContent("dischargeFromSemiSpecialWard", new entity(patientJob.getName())));
+		   m.add(makeContent("dischargeFromGeneralWard", new entity(patientJob.getName())));
 		   bedCount++;
 	   }
 	   return m;
 	}
 }
-
