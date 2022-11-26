@@ -19,6 +19,18 @@ import GenCol.*;
 
 public class PatientProcessor extends ViewableAtomic{
 
+	//////////DATA ANALYSIS VARIABLES //////////
+		
+	public static int 
+		gw1_count = 0, 
+		gw2_count = 0,
+		ssw1_count = 0, 
+		ssw2_count = 0,
+		sw1_count = 0,
+		sw2_count = 0,
+		patient_exit_count = 0;
+	/////////////////////////////////////////////
+	
 	public static PatientEntity patientJob, currentPatientJob;
 	public static DEVSQueue q;
 	
@@ -93,14 +105,30 @@ public class PatientProcessor extends ViewableAtomic{
 			   if(GWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed1";
+				   
+				   //////// DATA ANALYSIS UPDATES ////////
+				   gw1_count++;
+				   // System.out.println("gw1_count updated: "+gw1_count);
+				   //////// DATA ANALYSIS UPDATES ////////
+				   
 			   }
 			   else if(GWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed2";
+				   
+				   //////// DATA ANALYSIS UPDATES ////////
+				   gw2_count++;
+				   // System.out.println("gw2_count updated: "+gw2_count);
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else
 			   {
 				   outputPort = AppConstants.PATIENT_PROCESSOR_OUTPUTPORT[0];
+				   
+				   //////// DATA ANALYSIS UPDATES ////////
+				   patient_exit_count++;
+				   // System.out.println("patient_exit_count updated: "+patient_exit_count);
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 		   }
 		   
@@ -109,14 +137,29 @@ public class PatientProcessor extends ViewableAtomic{
 			   if(SSWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSSWBed1";
+				   
+				   //////// DATA ANALYSIS UPDATES ////////
+				   ssw1_count++;
+				   // System.out.println("ssw1_count updated: "+ssw1_count);
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else if(SSWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSSWBed2";
+				   
+				   //////// DATA ANALYSIS UPDATES ////////
+				   ssw2_count++;
+				   // System.out.println("ssw2_count updated: "+ssw2_count);
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else
 			   {
 				   outputPort = AppConstants.PATIENT_PROCESSOR_OUTPUTPORT[0];;
+				   
+				   //////// DATA ANALYSIS UPDATES ////////
+				   patient_exit_count++;
+				   // System.out.println("patient_exit_count updated: "+patient_exit_count);
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 
 		   }
@@ -126,14 +169,29 @@ public class PatientProcessor extends ViewableAtomic{
 			   if(SWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSWBed1";
+				   
+				   //////// DATA ANALYSIS UPDATES ////////
+				   sw1_count++;
+				   // System.out.println("sw1_count updated: "+sw1_count);
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else if(SWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSWBed2";
+				   
+				   //////// DATA ANALYSIS UPDATES ////////
+				   sw2_count++;
+				   // System.out.println("sw2_count updated: "+sw2_count);
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else
 			   {
 				   outputPort = AppConstants.PATIENT_PROCESSOR_OUTPUTPORT[0];
+				   
+				   //////// DATA ANALYSIS UPDATES ////////
+				   patient_exit_count++;
+				   // System.out.println("patient_exit_count updated: "+patient_exit_count);
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 		   }
 		   			   

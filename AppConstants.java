@@ -4,14 +4,14 @@ import java.util.Random;
 
 public interface AppConstants {
 	
-	int minTime = 10;
-	int maxTime = 20;
-	int maxPriority = 3;
-	int minPriority = 1;
-	static Random r = new Random();
+	public static int minTime = 5; // 10 is default
+	public static int maxTime = 10; // 20 is default
+	public static int maxPriority = 3;
+	public static int minPriority = 1;
+	public static Random r = new Random();
 	
 	
-	public int PATIENT_GENERATION_TIME = 10;
+	public static int PATIENT_GENERATION_TIME = 10;
 	public static Boolean APPLY_SHIFTING_LOGIC = false;
 	public static String PASSIVE_PHASE = "passive";
 	public static String ACTIVE_PHASE = "active";
@@ -32,27 +32,37 @@ public interface AppConstants {
 	// CONSTANT FUNCTIONS
 	public static int getPatientProcessingTime(int priority) {
 		switch(priority) {
+		
+		// if priority is 1
 	  	case 1: {
-		  return 5;
+		  return 5; // default is 5
 	  	}
+	  	
+	  	// if priority is 2
 	  	case 2: {
-		  return 10;
+		  return 10; // default is 10
 		}
+	  	
+	  	// if priority is 3
 	  	case 3: {
-		  return 15;
+		  return 15; // default is 15
 		}
 	  }
 		return 5;
 	}
 	
+	// returns random time for patient generation
 	public static double interPatientGenerationTime() {
-		return minTime + (maxTime - minTime) * r.nextDouble();
+		return r.nextDouble((maxTime - minTime) + 1) + minTime;
+		// return minTime + (maxTime - minTime) * r.nextDouble();
 	}
 	
+	// returns random priority for patient generated
 	public static int generateRandomPriority() {
 		return r.nextInt((maxPriority - minPriority) + 1) + minPriority;
 	}
 	
+	// patient serving time as per priority
 	public static int getPatientServingTime(int priority) {
 		switch(priority) {
 	  	case 1: {

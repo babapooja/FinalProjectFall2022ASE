@@ -21,10 +21,9 @@ import genDevs.simulation.*;
 import GenCol.*;
 
 public class GWBed1 extends ViewableAtomic{
-
+	
 	entity patientJob = null;
 	public static String currentPhase = AppConstants.PASSIVE_PHASE;
-	
 	
 	public GWBed1() {this("gwBed1");}
 	
