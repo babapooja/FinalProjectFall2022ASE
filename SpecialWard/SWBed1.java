@@ -7,17 +7,11 @@
  *  Date       : 08-15-02
  */
 
-
 package FinalProjectFall2022ASE.SpecialWard;
 
 import simView.*;
-
-
-import java.lang.*;
-
 import FinalProjectFall2022ASE.AppConstants;
 import genDevs.modeling.*;
-import genDevs.simulation.*;
 import GenCol.*;
 
 public class SWBed1 extends ViewableAtomic{

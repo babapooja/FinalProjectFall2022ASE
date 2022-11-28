@@ -19,8 +19,7 @@ import GenCol.*;
 
 public class PatientProcessor extends ViewableAtomic{
 
-	//////////DATA ANALYSIS VARIABLES //////////
-		
+	//////////DATA ANALYSIS VARIABLES //////////	
 	public static int 
 		gw1_count = 0, 
 		gw2_count = 0,
@@ -30,7 +29,7 @@ public class PatientProcessor extends ViewableAtomic{
 		sw2_count = 0,
 		patient_exit_count = 0,
 		total_count = 0;
-	/////////////////////////////////////////////
+	//////////DATA ANALYSIS VARIABLES //////////
 	
 	public static PatientEntity patientJob, currentPatientJob;
 	public static DEVSQueue q;
@@ -104,6 +103,7 @@ public class PatientProcessor extends ViewableAtomic{
 	      
 	   if(!AppConstants.APPLY_SHIFTING_LOGIC)
 	   {
+		   /***************************** GENERAL WARD PRIORITY ******************************************/
 		   if(m_priority == 3)
 		   {
 			   if(GWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
@@ -112,7 +112,6 @@ public class PatientProcessor extends ViewableAtomic{
 				   
 				   //////// DATA ANALYSIS UPDATES ////////
 				   gw1_count++;
-				   // System.out.println("gw1_count updated: "+gw1_count);
 				   //////// DATA ANALYSIS UPDATES ////////
 				   
 			   }
@@ -122,7 +121,6 @@ public class PatientProcessor extends ViewableAtomic{
 				   
 				   //////// DATA ANALYSIS UPDATES ////////
 				   gw2_count++;
-				   // System.out.println("gw2_count updated: "+gw2_count);
 				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else
@@ -131,11 +129,10 @@ public class PatientProcessor extends ViewableAtomic{
 				   
 				   //////// DATA ANALYSIS UPDATES ////////
 				   patient_exit_count++;
-				   // System.out.println("patient_exit_count updated: "+patient_exit_count);
 				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 		   }
-		   
+		   /***************************** SEMI SPECIAL WARD PRIORITY ******************************************/
 		   else if(m_priority == 2)
 		   {
 			   if(SSWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
@@ -144,7 +141,6 @@ public class PatientProcessor extends ViewableAtomic{
 				   
 				   //////// DATA ANALYSIS UPDATES ////////
 				   ssw1_count++;
-				   // System.out.println("ssw1_count updated: "+ssw1_count);
 				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else if(SSWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
@@ -153,7 +149,6 @@ public class PatientProcessor extends ViewableAtomic{
 				   
 				   //////// DATA ANALYSIS UPDATES ////////
 				   ssw2_count++;
-				   // System.out.println("ssw2_count updated: "+ssw2_count);
 				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else
@@ -162,12 +157,11 @@ public class PatientProcessor extends ViewableAtomic{
 				   
 				   //////// DATA ANALYSIS UPDATES ////////
 				   patient_exit_count++;
-				   // System.out.println("patient_exit_count updated: "+patient_exit_count);
 				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 
 		   }
-		   
+		   /***************************** SPECIAL WARD PRIORITY ******************************************/
 		   else if(m_priority == 1)
 		   {
 			   if(SWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
@@ -176,7 +170,6 @@ public class PatientProcessor extends ViewableAtomic{
 				   
 				   //////// DATA ANALYSIS UPDATES ////////
 				   sw1_count++;
-				   // System.out.println("sw1_count updated: "+sw1_count);
 				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else if(SWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
@@ -185,134 +178,176 @@ public class PatientProcessor extends ViewableAtomic{
 				   
 				   //////// DATA ANALYSIS UPDATES ////////
 				   sw2_count++;
-				   // System.out.println("sw2_count updated: "+sw2_count);
 				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else
 			   {
 				   outputPort = AppConstants.PATIENT_PROCESSOR_OUTPUTPORT[0];
-				   
 				   //////// DATA ANALYSIS UPDATES ////////
 				   patient_exit_count++;
-				   // System.out.println("patient_exit_count updated: "+patient_exit_count);
 				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 		   }
-		   			   
-		   m.add(makeContent(outputPort, 
-				   new PatientEntity(
-						   currentPatientJob.getPatientName(), 
-						   currentPatientJob.getPriority(), 
-						   currentPatientJob.getProcessingTime()
-						   )
-				   ));
+		  
 	   }
-	   
+	   /************************ SHIFTING LOGIC APPLIED ****************************************/
 	   else
-	   {
-		   // shifting algorithm is ON
-		   // implement logic here
-		   
+	   {		   
+		   /***************************** GENERAL WARD PRIORITY ******************************************
+		    * If patient incoming in general ward doesn't find a bed in the general ward, the patient is redirected to another hostpital and 
+		    * goes out of the current hospital
+		    */
 		   if(m_priority == 3)
 		   {
 			   if(GWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed1";
+				   //////// DATA ANALYSIS UPDATES ////////
+				   gw1_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else if(GWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed2";
+				   //////// DATA ANALYSIS UPDATES ////////
+				   gw2_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else
 			   {
 				   outputPort = AppConstants.PATIENT_PROCESSOR_OUTPUTPORT[0];
+				   //////// DATA ANALYSIS UPDATES ////////
+				   patient_exit_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 		   }
-		   
+		   /***************************** SEMI SPECIAL WARD PRIORITY ******************************************
+		    * If patient incoming in semi special ward doesn't find a bed in the semi-special ward, the patient is redirected to general ward. 
+		    * If the patient doesn't find a bed in the general ward as well, the patient is redirected to another hosptial and exits the current 
+		    * hospital
+		    * i.e.,
+		    * patient incoming in semi special ward has 2 ward possibilities for allocation of bed
+		    */
 		   else if(m_priority == 2)
 		   {
 			   // check SSW beds
 			   if(SSWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSSWBed1";
+				   //////// DATA ANALYSIS UPDATES ////////
+				   ssw1_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   
 			   else if(SSWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSSWBed2";
+				   //////// DATA ANALYSIS UPDATES ////////
+				   ssw2_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   
 			   // if occupied check GW beds
 			   else if(GWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed1";
+				   //////// DATA ANALYSIS UPDATES ////////
+				   gw1_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else if(GWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed2";
+				   //////// DATA ANALYSIS UPDATES ////////
+				   gw2_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
-			   
 			   else
 			   {
 				   outputPort = AppConstants.PATIENT_PROCESSOR_OUTPUTPORT[0];
+				   //////// DATA ANALYSIS UPDATES ////////
+				   patient_exit_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 		   }
-		   
+			/***************************** SEMI SPECIAL WARD PRIORITY ******************************************
+		    * If patient incoming in special ward doesn't find a bed in the special ward, the patient is redirected to semi-special ward. 
+		    * If the patient doesn't find a bed in the semi-special ward as well, the patient is redirected to general ward so that basic treatment of the patient 
+		    * is started.
+		    * If the patient doesn't find a bed in the general ward as well, the patient is redirected to another hosptial and exits the current hospital
+		    * i.e.,
+		    * patient incoming in special ward has 3 ward possibilities for allocation of bed
+		    */
 		   else if(m_priority == 1)
 		   {
-			   // check SW beds
+			   
 			   if(SWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSWBed1";
+				   //////// DATA ANALYSIS UPDATES ////////
+				   sw1_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else if(SWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSWBed2";
+				   //////// DATA ANALYSIS UPDATES ////////
+				   sw2_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   
 			   // if occupied check SSW beds
 			   else if(SSWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSSWBed1";
+				   //////// DATA ANALYSIS UPDATES ////////
+				   ssw1_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else if(SSWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqSSWBed2";
+				   //////// DATA ANALYSIS UPDATES ////////
+				   ssw2_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   
 			   // if occupied check GW beds
 			   else if(GWBed1.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed1";
+				   //////// DATA ANALYSIS UPDATES ////////
+				   gw1_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
 			   else if(GWBed2.currentPhase == AppConstants.PASSIVE_PHASE)
 			   {
 				   outputPort = "pqGWBed2";
+				   //////// DATA ANALYSIS UPDATES ////////
+				   gw2_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
-			   
 			   else
 			   {
 				   outputPort = AppConstants.PATIENT_PROCESSOR_OUTPUTPORT[0];
+			       //////// DATA ANALYSIS UPDATES ////////
+				   patient_exit_count++;
+				   //////// DATA ANALYSIS UPDATES ////////
 			   }
-		   }
-		   			   
-		   m.add(makeContent(outputPort, 
-				   new PatientEntity(
-						   currentPatientJob.getPatientName(), 
-						   currentPatientJob.getPriority(), 
-						   currentPatientJob.getProcessingTime()
-						   )
-				   ));
-		   
+		   }		   
 	   }
 	   
-
+	   m.add(makeContent(outputPort, 
+			   new PatientEntity(
+					   currentPatientJob.getPatientName(), 
+					   currentPatientJob.getPriority(), 
+					   currentPatientJob.getProcessingTime()
+					   )
+			   ));
 	   
-	   if(total_count > 50)
-	   {
+	   if(total_count > 50) {
 		   printStatistics();
 	   }
-	   
 	   
 	   return m;
 	}
@@ -328,16 +363,16 @@ public class PatientProcessor extends ViewableAtomic{
 	{
 		System.out.println("****************************");
 		
-		System.out.println("gw1_count: "+PatientProcessor.gw1_count);
-		System.out.println("gw2_count: "+PatientProcessor.gw2_count);
+		System.out.println("Number of patients treated in GENERAL ward BED1: "+ gw1_count);
+		System.out.println("Number of patients treated in GENERAL ward BED2: "+ gw2_count);
 		
-		System.out.println("ssw1_count: "+PatientProcessor.ssw1_count);
-		System.out.println("ssw2_count: "+PatientProcessor.ssw2_count);
+		System.out.println("Number of patients treated in SEMI SPECIAL ward BED1: "+ ssw1_count);
+		System.out.println("Number of patients treated in SEMI SPECIAL ward BED2: "+ ssw2_count);
 		
-		System.out.println("sw1_count: "+PatientProcessor.sw1_count);
-		System.out.println("sw2_count: "+PatientProcessor.sw2_count);
+		System.out.println("Number of patients treated in SPECIAL ward BED1: "+ sw1_count);
+		System.out.println("Number of patients treated in SPECIAL ward BED2: "+ sw2_count);
 		
-		System.out.println("patient_exit_count: "+PatientProcessor.patient_exit_count);
+		System.out.println("Number of patients left untreated from the hospital: "+ patient_exit_count);
 		
 		System.out.println("****************************");
 	}

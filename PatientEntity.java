@@ -21,6 +21,12 @@ public class PatientEntity extends entity{
 	1. Patient with Priority 1 has 3 options for bed
 	2. Patient with Priority 2 has 2 options for bed
 	3. Patient with Priority 3 has 1 option for bed
+	
+	Following cases analyzed:-
+	1. Patients being generated at SLOW PACE: maxTime - minTime = 10 units & NO SHIFTING logic applied
+	2. Patients being generated at SLOW PACE: maxTime - minTime = 10 units & SHIFTING logic applied   
+	3. Patients being generated at FAST PACE: maxTime - minTime = 5 units & NO SHIFTING logic applied
+	4. Patients being generated at SLOW PACE: maxTime - minTime = 5 units & SHIFTING logic applied
   */
   protected String[] cases = {
 		  "CARDIAC",				// special

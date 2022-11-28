@@ -39,7 +39,7 @@ public void hospitalSystemConstruct(){
 
     this.addOutport("hospitalExit");
 
-    ViewableAtomic patientGenr = new PatientGenerator("patientGenr",15);
+    ViewableAtomic patientGenr = new PatientGenerator("patientGenr", AppConstants.PATIENT_GENERATION_TIME);
     ViewableAtomic patientProcessor = new PatientProcessor("patientQueue");
     
 

@@ -11,13 +11,8 @@
 package FinalProjectFall2022ASE.SemiSepcialWard;
 
 import simView.*;
-
-
-import java.lang.*;
-
 import FinalProjectFall2022ASE.AppConstants;
 import genDevs.modeling.*;
-import genDevs.simulation.*;
 import GenCol.*;
 
 public class SSWBed1 extends ViewableAtomic{

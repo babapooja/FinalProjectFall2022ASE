@@ -12,17 +12,8 @@
 package FinalProjectFall2022ASE;
 
 import simView.*;
-
-
-import java.lang.*;
-import java.util.Random;
-
-import FinalProjectFall2022ASE.GeneralWard.GWBed1;
 import genDevs.modeling.*;
-import genDevs.simulation.*;
-import GenCol.*;
-import util.*;
-import statistics.*;
+
 
 public class PatientGenerator extends ViewableAtomic{
 	
@@ -34,7 +25,7 @@ public class PatientGenerator extends ViewableAtomic{
 	
 	public PatientGenerator() 
 	{
-		this("ptGenr", 5);
+		this("ptGenr", interGenTime);
 	}
 
 	public PatientGenerator(String name,double period)
@@ -58,18 +49,11 @@ public class PatientGenerator extends ViewableAtomic{
 	public void  deltint( )
 	{
 		if(phaseIs("active")){
-		   count = count + 1;
-		   
-		   System.out.println("out count: "+count);
-		   
+		   count = count + 1;		   
 		   if(count > 50) 
 		   {
-			   System.out.println("in count: "+count);
-			   
-			   // stop simulation
+			   // stop generating the patients - for simulation purpose and to analyze the results for a limited patients count
 			   passivate();   
-			   // exit code
-			   // System.exit(0);
 		   }
 		   else
 		   {
