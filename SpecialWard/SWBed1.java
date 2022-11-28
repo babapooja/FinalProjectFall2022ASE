@@ -42,8 +42,6 @@ public class SWBed1 extends ViewableAtomic{
 	{
 		Continue(e);
 		
-		System.out.println(x);
-		
 		if(phaseIs("passive")) {
 			for(int i=0;i<x.getLength();i++) {
 				if(messageOnPort(x, AppConstants.SW_INPUTPORT[0], i)) {

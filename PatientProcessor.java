@@ -28,7 +28,8 @@ public class PatientProcessor extends ViewableAtomic{
 		ssw2_count = 0,
 		sw1_count = 0,
 		sw2_count = 0,
-		patient_exit_count = 0;
+		patient_exit_count = 0,
+		total_count = 0;
 	/////////////////////////////////////////////
 	
 	public static PatientEntity patientJob, currentPatientJob;
@@ -92,6 +93,9 @@ public class PatientProcessor extends ViewableAtomic{
 	}
 	
 	public message out( ) {
+	
+	   total_count++;
+		
 	   message  m = new message();
 	   
 	   int m_priority = currentPatientJob.getPriority();
@@ -302,6 +306,13 @@ public class PatientProcessor extends ViewableAtomic{
 		   
 	   }
 	   
+
+	   
+	   if(total_count > 50)
+	   {
+		   printStatistics();
+	   }
+	   
 	   
 	   return m;
 	}
@@ -311,6 +322,24 @@ public class PatientProcessor extends ViewableAtomic{
 		return super.getTooltipText()+"\n number of patients in queue:"+q.size()+
 		"\n my current job is:" + currentPatientJob.toString();
 		else return "initial value";
+	}
+	
+	public static void printStatistics()
+	{
+		System.out.println("****************************");
+		
+		System.out.println("gw1_count: "+PatientProcessor.gw1_count);
+		System.out.println("gw2_count: "+PatientProcessor.gw2_count);
+		
+		System.out.println("ssw1_count: "+PatientProcessor.ssw1_count);
+		System.out.println("ssw2_count: "+PatientProcessor.ssw2_count);
+		
+		System.out.println("sw1_count: "+PatientProcessor.sw1_count);
+		System.out.println("sw2_count: "+PatientProcessor.sw2_count);
+		
+		System.out.println("patient_exit_count: "+PatientProcessor.patient_exit_count);
+		
+		System.out.println("****************************");
 	}
 }
 

@@ -4,15 +4,15 @@ import java.util.Random;
 
 public interface AppConstants {
 	
-	public static int minTime = 5; // 10 is default
-	public static int maxTime = 10; // 20 is default
+	public static int minTime = 1; // 10 is default
+	public static int maxTime = 5; // 20 is default
 	public static int maxPriority = 3;
 	public static int minPriority = 1;
 	public static Random r = new Random();
 	
 	
 	public static int PATIENT_GENERATION_TIME = 10;
-	public static Boolean APPLY_SHIFTING_LOGIC = false;
+	public static Boolean APPLY_SHIFTING_LOGIC = true;
 	public static String PASSIVE_PHASE = "passive";
 	public static String ACTIVE_PHASE = "active";
 	public static String PATIENT_GENERATOR_OUTPUTPORT = "patientIncomingHospital"; 

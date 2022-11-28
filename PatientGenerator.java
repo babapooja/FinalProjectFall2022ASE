@@ -60,14 +60,16 @@ public class PatientGenerator extends ViewableAtomic{
 		if(phaseIs("active")){
 		   count = count + 1;
 		   
+		   System.out.println("out count: "+count);
+		   
 		   if(count > 50) 
 		   {
-			   // print data analysis statistics
-			   printStatistics();
+			   System.out.println("in count: "+count);
+			   
 			   // stop simulation
 			   passivate();   
 			   // exit code
-			   System.exit(0);
+			   // System.exit(0);
 		   }
 		   else
 		   {
@@ -91,23 +93,7 @@ public class PatientGenerator extends ViewableAtomic{
 	   return m;
 	}
 	
-	public static void printStatistics()
-	{
-		System.out.println("****************************");
-		
-		System.out.println("gw1_count: "+PatientProcessor.gw1_count);
-		System.out.println("gw2_count: "+PatientProcessor.gw2_count);
-		
-		System.out.println("ssw1_count: "+PatientProcessor.ssw1_count);
-		System.out.println("ssw2_count: "+PatientProcessor.ssw2_count);
-		
-		System.out.println("sw1_count: "+PatientProcessor.sw1_count);
-		System.out.println("sw2_count: "+PatientProcessor.sw2_count);
-		
-		System.out.println("patient_exit_count: "+PatientProcessor.patient_exit_count);
-		
-		System.out.println("****************************");
-	}
+	
 
 
 }
