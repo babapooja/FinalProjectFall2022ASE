@@ -345,7 +345,7 @@ public class PatientProcessor extends ViewableAtomic{
 					   )
 			   ));
 	   
-	   if(total_count > 50) {
+	   if(total_count > 99) {
 		   printStatistics();
 	   }
 	   
@@ -362,6 +362,7 @@ public class PatientProcessor extends ViewableAtomic{
 	public static void printStatistics()
 	{
 		System.out.println("****************************");
+		System.out.println();
 		
 		System.out.println("Number of patients treated in GENERAL ward BED1: "+ gw1_count);
 		System.out.println("Number of patients treated in GENERAL ward BED2: "+ gw2_count);
@@ -374,7 +375,9 @@ public class PatientProcessor extends ViewableAtomic{
 		
 		System.out.println("Number of patients left untreated from the hospital: "+ patient_exit_count);
 		
+		System.out.println();
 		System.out.println("****************************");
+		System.out.println();
 	}
 }
 

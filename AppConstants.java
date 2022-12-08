@@ -4,15 +4,18 @@ import java.util.Random;
 
 public interface AppConstants {
 	
-	public static int minTime = 10; // 10 is default
-	public static int maxTime = 20; // 20 is default
+	public static int minTime = 1; // 10 is default
+	public static int maxTime = 5; // 20 is default
 	public static int maxPriority = 3;
 	public static int minPriority = 1;
 	public static Random r = new Random();
 	
 	
 	public static int PATIENT_GENERATION_TIME = 10;
-	public static Boolean APPLY_SHIFTING_LOGIC = false;
+	
+	// shifting
+	public static Boolean APPLY_SHIFTING_LOGIC = true;
+	
 	public static String PASSIVE_PHASE = "passive";
 	public static String ACTIVE_PHASE = "active";
 	public static String PATIENT_GENERATOR_OUTPUTPORT = "patientIncomingHospital"; 
@@ -40,12 +43,12 @@ public interface AppConstants {
 	  	
 	  	// if priority is 2
 	  	case 2: {
-		  return 10; // default is 10
+		  return 5; // default is 10
 		}
 	  	
 	  	// if priority is 3
 	  	case 3: {
-		  return 15; // default is 15
+		  return 5; // default is 15
 		}
 	  }
 		return 5;
@@ -66,13 +69,13 @@ public interface AppConstants {
 	public static int getPatientServingTime(int priority) {
 		switch(priority) {
 	  	case 1: {
-		  return 20;
+		  return 35;
 	  	}
 	  	case 2: {
-		  return 20;
+		  return 25;
 		}
 	  	case 3: {
-		  return 20;
+		  return 15;
 		}
 	  }
 		return 20;

@@ -40,7 +40,7 @@ public void hospitalSystemConstruct(){
     this.addOutport("hospitalExit");
 
     ViewableAtomic patientGenr = new PatientGenerator("patientGenr", AppConstants.PATIENT_GENERATION_TIME);
-    ViewableAtomic patientProcessor = new PatientProcessor("patientQueue");
+    ViewableAtomic patientProcessor = new PatientProcessor("patientProcessor");
     
 
     ViewableAtomic gwBed1 = new GWBed1("GWBed1");
@@ -103,8 +103,8 @@ public void hospitalSystemConstruct(){
     public void layoutForSimView()
     {
         preferredSize = new Dimension(1263, 644);
-        if((ViewableComponent)withName("patientQueue")!=null)
-             ((ViewableComponent)withName("patientQueue")).setPreferredLocation(new Point(298, 265));
+        if((ViewableComponent)withName("patientProcessor")!=null)
+             ((ViewableComponent)withName("patientProcessor")).setPreferredLocation(new Point(272, 183));
         if((ViewableComponent)withName("GWBed2")!=null)
              ((ViewableComponent)withName("GWBed2")).setPreferredLocation(new Point(555, 152));
         if((ViewableComponent)withName("SWBed1")!=null)

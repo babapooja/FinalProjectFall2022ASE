@@ -50,8 +50,9 @@ public class PatientGenerator extends ViewableAtomic{
 	{
 		if(phaseIs("active")){
 		   count = count + 1;		   
-		   if(count > 50) 
+		   if(count > 99) 
 		   {
+			   System.out.println("patient "+count+ "generated");
 			   // stop generating the patients - for simulation purpose and to analyze the results for a limited patients count
 			   passivate();   
 		   }
